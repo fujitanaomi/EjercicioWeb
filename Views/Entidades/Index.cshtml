@@ -1,0 +1,42 @@
+﻿
+@model List<EjercicioWeb.Modelo.Entidades.IEntidad>
+@{
+  ViewBag.Title = "Entidades";
+  var entidadSeleccionada = ViewBag.Seleccionada as string;
+}
+
+<h2>Gestión de entidades</h2>
+
+<form method="get">
+
+  <label>Entidad:</label>
+  @Html.DropDownList("entidad", ViewBag.Entidades as SelectList, new { onchange = "this.form.submit();" })
+
+  <label style="margin-left:20px;">Buscar:</label>
+  <input type="text" name="filtro" value="@Request["filtro"]" />
+  <input type="submit" value="Filtrar" />
+</form>
+<div style="margin: 10px 0;">
+  <a href="@Url.Action("Crear", new { entidad = entidadSeleccionada })" class="btn btn-primary">Crear nuevo</a>
+  <a href="@Url.Action("Informe")" class="btn btn-secondary" style="margin-left:10px;">Ver informe</a>
+</div>
+  <table class="table table-bordered table-striped" style="margin-top:20px;">
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Acciones</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>@item.id</td>
+        <td>@item.titulo</td>
+        <td>
+          @Html.ActionLink("Eliminar", "Eliminar", new { entidad = entidadSeleccionada, id = item.id }, new { @class = "btn btn-danger btn-sm" })
+        </td>
+      </tr>
+    }
+  </table>
+
+
+
